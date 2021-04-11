@@ -138,4 +138,4 @@ class Commendation(models.Model):
         on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.schoolkid.full_name}"
+        return f"{self.schoolkid.full_name}, {self.text}, {self.teacher}, {self.created}"
