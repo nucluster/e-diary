@@ -3,8 +3,14 @@
 from datacenter.models import Chastisement, Mark, Schoolkid, Commendation, Lesson, Subject, Teacher
 
 def fix_marks(schoolkid_name):
-    schoolkid = Schoolkid.objects.get(full_name__contains=schoolkid_name)
-    return Mark.objects.filter(schoolkid=schoolkid, points__in=[2,3]).update(points=5)
+    schoolkid = Schoolkid.objects.filter(full_name__contains=schoolkid_name)
+    if len(schoolkid) == 1:
+        print('Исправлены оценки 2 и 3:', Mark.objects.filter(schoolkid=schoolkid[0], points__in=[2,3]).update(points=5))
+    elif len(schoolkid) == 0:
+        print(f'Ученика с именем {schoolkid_name} нет в базе данных.')
+    else:
+        print(f'Найдено {len(schoolkid)} учеников с именем {schoolkid_name}:', *schoolkid, sep='\n')
+
 
 def remove_chastisements(schoolkid_name):
     schoolkid = Schoolkid.objects.get(full_name__contains=schoolkid_name)
