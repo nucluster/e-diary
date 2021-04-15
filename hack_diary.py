@@ -13,13 +13,19 @@ def fix_marks(schoolkid_name):
 
 
 def remove_chastisements(schoolkid_name):
-    schoolkid = Schoolkid.objects.get(full_name__contains=schoolkid_name)
-    return Chastisement.objects.filter(schoolkid=schoolkid).delete()
+    schoolkid = Schoolkid.objects.filter(full_name__contains=schoolkid_name)
+    if len(schoolkid) == 1:
+        print('Удалены замечания:', Chastisement.objects.filter(schoolkid=schoolkid[0]).delete())
+    elif len(schoolkid) == 0:
+        print(f'Ученика с именем {schoolkid_name} нет в базе данных.')
+    else:
+        print(f'Найдено {len(schoolkid)} учеников с именем {schoolkid_name}:', *schoolkid, sep='\n')
 
-def create_commendation(schoolkid_name, subject_title, date):
-    schoolkid = Schoolkid.objects.get(full_name__contains=schoolkid_name)
-    subject = Subject.objects.get(title__contains=subject_title, year_of_study=schoolkid.year_of_study)
-    teacher = Teacher.objects.get(id=697)
+
+def create_commendation(schoolkid_name, subject_title, teacher_name, date):
+    schoolkid = Schoolkid.objects.filter(full_name__contains=schoolkid_name)
+    subject = Subject.objects.filter(title__contains=subject_title, year_of_study=schoolkid.year_of_study)
+    teacher = Teacher.objects.filter(full_name__contains=teacher_name)
     if Lesson.objects.filter(date=date, subject=subject, year_of_study=schoolkid.year_of_study, group_letter=schoolkid.group_letter).count():
         Commendation.objects.create(text='Хвалю!', created=date, schoolkid=schoolkid, subject=subject, teacher=teacher)
         return f"Добавлена похвала ученику {schoolkid.full_name} по предмету {subject.title}, дата: {date}, учитель {teacher.full_name}"
