@@ -23,14 +23,13 @@ def remove_chastisements(schoolkid_name):
 
 def create_commendation(schoolkid_name, subject_title, teacher_name, date):
     schoolkid = Schoolkid.objects.filter(full_name__contains=schoolkid_name)
+    teacher = Teacher.objects.filter(full_name__contains=teacher_name)
     if len(schoolkid) == 1:
         subject = Subject.objects.filter(title__contains=subject_title, year_of_study=schoolkid[0].year_of_study)
-        teacher = Teacher.objects.filter(full_name__contains=teacher_name)
         if len(subject) == 1:
             lesson = Lesson.objects.filter(date=date, subject=subject[0], year_of_study=schoolkid[0].year_of_study, group_letter=schoolkid[0].group_letter)
-    if len(schoolkid) == 1 and len(subject) == 1 and len(teacher) == 1 and len(lesson) == 1:
+    if len(teacher) == 1 and len(lesson) == 1:
         print(Commendation.objects.create(text='Хвалю!', created=date, schoolkid=schoolkid[0], subject=subject[0], teacher=teacher[0]))
-        # print(f"Добавлена похвала ученику {schoolkid[0].full_name} по предмету {subject[0].title}, дата: {date}, учитель {teacher[0].full_name}", comm)
     elif len(schoolkid) == 0:
         print(f'Ученика с именем {schoolkid_name} нет в базе данных.')
     elif len(subject) == 0:
