@@ -5,8 +5,7 @@ from random import choice
 def fix_marks(schoolkid_name):
     schoolkid = Schoolkid.objects.filter(full_name__contains=schoolkid_name)
     if len(schoolkid) == 1:
-        print('Исправлены оценки 2 и 3:',
-              Mark.objects.filter(schoolkid=schoolkid[0], points__in=[2, 3]).update(points=5))
+        print('Исправлены оценки 2 и 3:', Mark.objects.filter(schoolkid=schoolkid[0], points__in=[2, 3]).update(points=choice([4,5])))
     elif len(schoolkid) == 0:
         print(f'Ученика с именем {schoolkid_name} нет в базе данных.')
     else:
