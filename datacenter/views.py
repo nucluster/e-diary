@@ -23,7 +23,7 @@ def get_iso_week_from_params(get_params):
         asked_iso_week = Week(year_number, week_number)
     else:
         # default weekday for that dvmn lesson
-        current_iso_week = Week(2019, 1)
+        current_iso_week = Week(2018, 40)
         asked_iso_week = current_iso_week
     return asked_iso_week
 
