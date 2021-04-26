@@ -8,8 +8,7 @@ def fix_marks(schoolkid_name):
         print('Исправлены оценки 2 и 3:', Mark.objects.filter(schoolkid=schoolkid[0], points__in=[2, 3]).update(points=choice([4, 5])))
     elif len(schoolkid) == 0:
         print(f'Ученика с именем {schoolkid_name} нет в базе данных.')
-    else:
-        print(f'Найдено {len(schoolkid)} учеников с именем {schoolkid_name}:', *schoolkid, sep='\n')
+    return print(f'Найдено {len(schoolkid)} учеников с именем {schoolkid_name}:', *schoolkid, sep='\n')
 
 
 def remove_chastisements(schoolkid_name):
@@ -23,8 +22,9 @@ def remove_chastisements(schoolkid_name):
 
 
 def get_random_commendation_phrase():
-    with open('commendation_phrases.txt', 'rt') as f:
-        phrases = [line.rstrip('\n') for line in f]
+    with open('commendation_phrases.txt', 'rt') as file:
+        # phrases = [line.rstrip('\n') for line in f]
+        phrases = file.read().splitlines()
     return choice(phrases)
 
 
