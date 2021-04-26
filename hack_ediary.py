@@ -31,7 +31,7 @@ def remove_chastisements(schoolkid_name):
 
 
 def get_random_commendation_phrase():
-    with open('commendation_phrases.txt', 'rt') as file:
+    with open('commendation_phrases.txt', 'rt', encoding='utf-8') as file:
         phrases = file.read().splitlines()
     return choice(phrases)
 
