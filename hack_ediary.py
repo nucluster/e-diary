@@ -41,10 +41,22 @@ def create_commendation(schoolkid_name, subject_title, date):
     if schoolkid:
         subject = get_obj_or_error(Subject, title__contains=subject_title, year_of_study=schoolkid.year_of_study)
         if subject:
-            lesson = get_obj_or_error(Lesson, date=date, subject=subject, year_of_study=schoolkid.year_of_study, group_letter=schoolkid.group_letter)
+            lesson = get_obj_or_error(
+                Lesson,
+                date=date,
+                subject=subject,
+                year_of_study=schoolkid.year_of_study,
+                group_letter=schoolkid.group_letter
+            )
             if lesson:
                 marks = Mark.objects.filter(created=date, schoolkid=schoolkid, subject=subject)
                 if len(marks) >= 1:
-                    return Commendation.objects.create(text=get_random_commendation_phrase(), created=date, schoolkid=schoolkid, subject=subject, teacher=lesson.teacher)
+                    return Commendation.objects.create(
+                        text=get_random_commendation_phrase(),
+                        created=date,
+                        schoolkid=schoolkid,
+                        subject=subject,
+                        teacher=lesson.teacher
+                    )
                 else:
                     print('Невозможно добавить похвалу, нет оценок')
