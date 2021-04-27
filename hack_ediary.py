@@ -1,4 +1,6 @@
-from datacenter.models import Chastisement, Mark, Schoolkid, Commendation, Lesson, Subject
+from datacenter.models import (
+    Chastisement, Mark, Schoolkid, Commendation,Lesson, Subject
+    )
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from random import choice
@@ -18,9 +20,12 @@ def get_obj_or_error(klass, *args, **kwargs):
 
 def fix_marks(schoolkid_name):
     schoolkid = get_obj_or_error(Schoolkid, full_name__contains=schoolkid_name)
-    if schoolkid:
-        total_fix_marks = Mark.objects.filter(schoolkid=schoolkid, points__in=[2, 3]).update(points=choice([4, 5]))
-        return f'Исправлены оценки 2 и 3 ученика {schoolkid.full_name} на 4 и 5 в количестве: {total_fix_marks}'
+    if not schoolkid:
+        return
+    total_fix_marks = Mark.objects.filter(
+        schoolkid=schoolkid,
+        points__in=[2, 3]).update(points=choice([4, 5]))
+    return f'Исправлены оценки 2 и 3 ученика {schoolkid.full_name} на 4 и 5 в количестве: {total_fix_marks}'
 
 
 def remove_chastisements(schoolkid_name):
