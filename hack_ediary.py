@@ -7,7 +7,7 @@ from random import choice
 def get_obj(klass, *args, **kwargs):
     try:
         obj = klass.objects.get(*args, **kwargs)
-    except klass.DoesNotExists:
+    except klass.DoesNotExist:
         print(f'Объекта класса {klass} с заданными параметрами нет в базе '
               f'данных.')
         return None
