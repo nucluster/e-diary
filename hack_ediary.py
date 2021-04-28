@@ -72,3 +72,4 @@ def create_commendation(schoolkid_name, subject_title, date):
             teacher=lesson.teacher)
     else:
         print('Невозможно добавить похвалу, нет оценок')
+#
